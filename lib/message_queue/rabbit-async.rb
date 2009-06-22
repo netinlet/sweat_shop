@@ -16,11 +16,11 @@ module MessageQueue
       num
     end
 
-    def enqueue(queue, data)
+    def enqueue(queue, data, serializer)
       client.queue(queue, :durable => true).publish(serializer.serialize(data), :persistent => true)
     end
 
-    def dequeue(queue)
+    def dequeue(queue, serializer)
       client.queue(queue).pop do |info, task|
         @info[queue] = info
         return serialize.deserialize(task)
@@ -61,7 +61,7 @@ module MessageQueue
       true
     end
 
-    def subscribe(queue, &block)
+    def subscribe(queue, serializer, &block)
       AMQP.start(:host => @host, :port => @port) do
         mq = MQ.new
         mq.send(AMQP::Protocol::Basic::Qos.new(:prefetch_size => 0, :prefetch_count => 1, :global => false))

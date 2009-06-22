@@ -13,11 +13,11 @@ module MessageQueue
       size
     end
 
-    def enqueue(queue, data)
+    def enqueue(queue, data, serializer)
       client.set(queue, data)
     end
 
-    def dequeue(queue)
+    def dequeue(queue, serializer)
       client.get("#{queue}/open")
     end
 

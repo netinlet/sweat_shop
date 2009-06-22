@@ -72,7 +72,7 @@ module SweatShop
     end
 
     def self.subscribe
-      queue.subscribe(queue_name) do |task|
+      queue.subscribe(queue_name, serializer) do |task|
         do_task(task)
       end
     end
