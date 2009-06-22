@@ -17,8 +17,22 @@ module SweatShop
         end
       
         def deserialize(payload)
-          JSON.parse(payload)
+          symbolize_keys(JSON.parse(payload))
         end
+        
+        protected 
+        # another straight out of rails land - ActiveSupport::CoreExtensions::Hash::Keys
+        def symbolize_keys(data)
+          if data.is_a?(Hash)
+            data.inject({}) do |options, (key, value)|
+              options[(key.to_sym rescue key) || key] = value
+              options
+            end
+          else
+            data
+          end
+        end
+        
       end
     end
   end
