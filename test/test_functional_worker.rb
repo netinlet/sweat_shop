@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../lib/sweat_shop'
 require File.dirname(__FILE__) + '/test_helper'
 require File.dirname(__FILE__) + '/hello_worker'
-
 class WorkerTest < Test::Unit::TestCase
 
   def setup

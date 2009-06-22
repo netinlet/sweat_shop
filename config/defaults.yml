@@ -6,3 +6,4 @@ queue: rabbit
 user: 'guest'
 pass: 'guest'
 vhost: '/'
+serializer: 'marshal'

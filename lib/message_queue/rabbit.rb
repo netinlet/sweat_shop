@@ -21,17 +21,17 @@ module MessageQueue
       end
     end
 
-    def enqueue(queue, data)
+    def enqueue(queue, data, serializer)
       send_command do 
-        client.queue(queue, :durable => true).publish(Marshal.dump(data), :persistent => true)
+        client.queue(queue, :durable => true).publish(serializer.serialize(data), :persistent => true)
       end
     end
 
-    def dequeue(queue)
+    def dequeue(queue, serializer)
       send_command do
         task = client.queue(queue).pop(:ack => true)
         return unless task
-        Marshal.load(task)
+        serializer.deserialize(task)
       end
     end
 

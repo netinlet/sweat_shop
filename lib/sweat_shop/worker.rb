@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/metaid'
+require File.dirname(__FILE__) + '/../serializers/serializer'
 
 module SweatShop
   class Worker
@@ -28,6 +29,15 @@ module SweatShop
         super
       end
     end
+    
+    def self.serialize_with(serializer_name)
+      @serializer = SweatShop::Serializer.serializers[serializer_name]
+      raise RuntimeError.new("No Such Serializer ['#{serializer_name}']") if @serializer.nil?
+    end
+    
+    def self.serializer
+      @serializer ||= SweatShop::Serializer.default
+    end
 
     def self.instance
       @instance ||= new
@@ -50,11 +60,11 @@ module SweatShop
     end
 
     def self.enqueue(task)
-      queue.enqueue(queue_name, task)
+      queue.enqueue(queue_name, task, serializer)
     end
 
     def self.dequeue
-      queue.dequeue(queue_name)
+      queue.dequeue(queue_name, serializer)
     end
 
     def self.confirm

@@ -17,13 +17,13 @@ module MessageQueue
     end
 
     def enqueue(queue, data)
-      client.queue(queue, :durable => true).publish(Marshal.dump(data), :persistent => true)
+      client.queue(queue, :durable => true).publish(serializer.serialize(data), :persistent => true)
     end
 
     def dequeue(queue)
       client.queue(queue).pop do |info, task|
         @info[queue] = info
-        return Marshal.load(task)
+        return serialize.deserialize(task)
       end
     end
 
@@ -68,7 +68,7 @@ module MessageQueue
         mq.queue(queue, :durable => true).subscribe(:ack => true) do |info, task|
           if task
             @info[queue] = info
-            task = Marshal.load(task)
+            task = serializer.deserialize(task)
             block.call(task)
           end
         end

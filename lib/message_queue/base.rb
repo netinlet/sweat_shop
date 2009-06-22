@@ -9,6 +9,14 @@ module MessageQueue
     def delete(queue);        end
     def client;               end
     def stop;                 end
+    
+    def serializer=(klass)
+      @serialize = klass
+    end
+    
+    def serializer
+      @serializer ||= SweatShop::Serializer.default
+    end
 
     def subscribe?
       false
