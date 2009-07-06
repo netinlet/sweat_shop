@@ -138,5 +138,6 @@ module SweatShop
 end
 
 if defined?(RAILS_ROOT)
+  SweatShop.logger = RAILS_DEFAULT_LOGGER
   Dir.glob(RAILS_ROOT + '/app/workers/*.rb').each{|worker| require worker }
 end

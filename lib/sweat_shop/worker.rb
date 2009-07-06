@@ -14,13 +14,13 @@ module SweatShop
         if expected_args != args.size 
           raise ArgumentError.new("#{method} expects #{expected_args} arguments")
         end
-        return instance.send(method, *args) unless config['enable']
+        #return instance.send(method, *args) unless true == config['enable']
 
         uid  = ::Digest::MD5.hexdigest("#{name}:#{method}:#{args}:#{Time.now.to_f}")
         task = {:args => args, :method => method, :uid => uid, :queued_at => Time.now.to_i}
 
         log("Putting #{uid} on #{queue_name}")
-        enqueue(task)
+        enqueue(task) if config['enable']
 
         uid
       elsif instance.respond_to?(method)
