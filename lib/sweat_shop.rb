@@ -47,6 +47,9 @@ module SweatShop
           end
         end
         if stop?
+          workers.each do |worker|
+            worker.stop
+          end
           queue.stop
           exit 
         end
@@ -107,16 +110,18 @@ module SweatShop
     puts '-' * (max_width + 10)
   end
 
-  def queue
-    @queue ||= begin 
-      queue = config['queue'] || 'rabbit'
-      queue = constantize("MessageQueue::#{queue.capitalize}")
-      queue.new(config)
+  def queue(type = 'default')
+    @queues ||= {}
+    @queues[type] ||= begin 
+      qconfig = config[type] || config['default']
+      qtype   = qconfig['queue'] || 'rabbit'
+      queue   = constantize("MessageQueue::#{qtype.capitalize}")
+      queue.new(qconfig)
     end
   end
 
-  def queue=(queue)
-    @queue = queue
+  def queue=(queue, type = 'default')
+    @queues[type] = queue
   end
 
   def log(msg)

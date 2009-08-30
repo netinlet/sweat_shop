@@ -1,9 +1,10 @@
 # default options
-servers:
-  - localhost:5672
+default: 
+  queue: rabbit
+  host: localhost
+  port: 5672
+  user: 'guest'
+  pass: 'guest'
+  vhost: '/'
+  serializer: 'marshal'
 enable: true
-queue: rabbit
-user: 'guest'
-pass: 'guest'
-vhost: '/'
-serializer: 'marshal'

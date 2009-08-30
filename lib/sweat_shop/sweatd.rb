@@ -1,12 +1,12 @@
-require File.dirname(__FILE__) + '/../sweat_shop'
-require 'i_can_daemonize'
+require File.dirname(__FILE__) + '/daemoned'
 
 module SweatShop
   class Sweatd
-    include ICanDaemonize
+    include Daemoned
     queues     = []
     groups     = []
     rails_root = nil
+    start_cmd  = "ruby #{__FILE__} start #{ARGV.reject{|a| a == 'start'}.join(' ')}"
 
     arg '--workers=Worker,Worker', 'Workers to service (Default is all)' do |value|
       queues = value.split(',')
@@ -32,12 +32,21 @@ module SweatShop
       puts "Shutting down sweatd..."
       SweatShop.stop
     end
+
+    sig(:hup) do
+      puts "Received HUP"
+      SweatShop.stop
+      remove_pid!
+      puts "Restarting sweatd with #{start_cmd}..."
+      `#{start_cmd}`        
+    end
     
     before do
       if rails_root
         puts "Loading Rails..."
         require rails_root + '/config/environment' 
       end
+      require File.dirname(__FILE__) + '/../sweat_shop'
     end
 
     daemonize(:kill_timeout => 20) do
