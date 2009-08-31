@@ -8,10 +8,10 @@ begin
   Jeweler::Tasks.new do |s|
     s.name = "sweat_shop"
     s.summary = %Q{SweatShop is a simple asynchronous worker queue build on top of rabbitmq/ampq}
-    s.email = "amos@geni.com"
-    s.homepage = "http://github.com/famoseagle/sweat-shop"
-    s.description = "TODO"
-    s.authors = ["Amos Elliston"]
+    s.email = "doug@netinlet.com"
+    s.homepage = "http://github.com/netinlet/sweat_shop"
+    s.description = "Amos Elliston's sweat_shop + Custom Serialization"
+    s.authors = ["Amos Elliston", "Doug Bryant"]
     s.files =  FileList["[A-Z]*", "{lib,test,config}/**/*"]
     s.add_dependency('famoseagle-carrot', '= 0.7.0')
   end
