@@ -119,6 +119,10 @@ module SweatShop
     def self.log(msg)
       SweatShop.log(msg)
     end
+    
+    def logger
+      SweatShop.logger
+    end
 
     def self.before_task(&block)
       if block
