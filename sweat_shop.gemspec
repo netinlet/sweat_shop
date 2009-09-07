@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Amos Elliston", "Doug Bryant"]
-  s.date = %q{2009-08-31}
+  s.date = %q{2009-09-07}
   s.default_executable = %q{sweatd}
   s.description = %q{Amos Elliston's sweat_shop + Custom Serialization}
   s.email = %q{doug@netinlet.com}
@@ -66,10 +66,13 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<famoseagle-carrot>, ["= 0.7.0"])
+      s.add_runtime_dependency(%q<daemons>, [">= 0"])
     else
       s.add_dependency(%q<famoseagle-carrot>, ["= 0.7.0"])
+      s.add_dependency(%q<daemons>, [">= 0"])
     end
   else
     s.add_dependency(%q<famoseagle-carrot>, ["= 0.7.0"])
+    s.add_dependency(%q<daemons>, [">= 0"])
   end
 end
