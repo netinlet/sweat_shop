@@ -14,6 +14,7 @@ begin
     s.authors = ["Amos Elliston", "Doug Bryant"]
     s.files =  FileList["[A-Z]*", "{lib,test,config}/**/*"]
     s.add_dependency('famoseagle-carrot', '= 0.7.0')
+    s.add_dependency('daemons')
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
